@@ -37,11 +37,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to use the
 
 ## Learn More
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+To learn more about, take a look at the following resources:
 
-To learn more about Next.js, take a look at the following resources:
-
+- [Ollama](https://github.com/ollama/ollama)
+- [Ollama-js](https://github.com/ollama/ollama-js)
+- [Deepseek](https://www.deepseek.com/)
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
