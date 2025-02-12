@@ -15,13 +15,19 @@ Run on terminal once:
 ollama run deepseek-r1:14b
 ```
 
-Next, run the development server:
+Clone the repository:
 
 ```bash
 git clone https://github.com/RatimbumCode/local-ai-chatbot.git
 
 cd local-ai-chatbot
+```
 
+Make a copy of .env.local.example and rename it to .env.local
+
+Run the development server:
+
+```bash
 pnpm install
 
 pnpm dev
