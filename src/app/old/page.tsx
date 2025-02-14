@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import ReactMarkdown from 'react-markdown';
 
 interface Message {
   id: string;
@@ -71,72 +70,49 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-200">
-      <div className="bg-white p-4 shadow-sm">
-        <h1 className="text-xl font-bold text-gray-800">
-          Chat with DeepSeek-R1
-        </h1>
-        <h2 className="text-lg font-bold text-gray-700">
-          Model | deepseek-r1:14b 9GB - Ollama
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-[#0a0a0a] text-white">
+      <div className="w-full max-w-3xl flex flex-col h-[90vh] p-6 rounded-lg shadow-lg bg-[#1e1e1e]">
+        <h1 className="text-2xl font-bold mb-4 text-center">Ollama AI Chat</h1>
+        <h2 className="text-xl text-stone-200 font-bold mb-4 text-center">
+          Model - deepseek-r1:14b 9GB
         </h2>
-      </div>
-
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-          >
+        <div className="flex-grow overflow-y-auto p-4 bg-[#2a2a2a] rounded-lg mb-4 text-white">
+          {messages.map((msg) => (
             <div
-              className={`max-w-screen-xl p-4 rounded-lg ${message.role === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-100 border border-gray-200'}`}
+              key={msg.id}
+              className={`mb-2 p-2 rounded-lg ${msg.role === 'user' ? 'bg-blue-600 self-end' : 'bg-gray-700 self-start'}`}
             >
-              {message.role === 'assistant' ? (
-                <ReactMarkdown className="text-sm">
-                  {message.content}
-                </ReactMarkdown>
-              ) : (
-                <p className="text-sm">{message.content}</p>
-              )}
+              <p>{msg.content}</p>
             </div>
-          </div>
-        ))}
-        {loading && (
-          <div className="flex justify-start">
-            <div
-              className={`max-w-screen-xl p-4 rounded-lg bg-gray-100 border border-gray-200`}
-            >
-              <p className="text-sm animate-pulse text-blue-400">Thinking</p>
+          ))}
+          {loading && (
+            <div className="flex items-center justify-center gap-1 mt-2">
+              <div className="animate-pulse text-blue-400">Thinking</div>
             </div>
+          )}
+        </div>
+        {responseTime !== null && (
+          <div className="text-center text-stone-200 mb-4">
+            Response time: {formatResponseTime(responseTime)}
           </div>
         )}
-      </div>
-
-      <div className="bg-white p-4 border-t">
-        <div className="flex space-x-4">
-          <input
-            type="text"
+        <div className="flex gap-2">
+          <textarea
+            className="flex-grow p-3 rounded-lg bg-[#333] text-white border border-[#444] focus:outline-none focus:ring-2 focus:ring-blue-500"
+            rows={2}
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your message..."
-            className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            disabled={loading}
+            placeholder="Enter your prompt..."
           />
-
           <button
             type="submit"
+            className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-500 disabled:opacity-50"
             onClick={handleSubmit}
-            disabled={loading || !input.trim()}
-            className={`px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={loading}
           >
-            {loading ? 'Processing...' : 'Send'}
+            {loading ? 'Sending...' : 'Send'}
           </button>
         </div>
-
-        {responseTime !== null && (
-          <p className="text-sm text-gray-600 mt-2">
-            Response time: {formatResponseTime(responseTime)}
-          </p>
-        )}
       </div>
     </div>
   );
