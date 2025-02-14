@@ -1,41 +1,55 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
+
+interface Message {
+  id: string;
+  role: string;
+  content: string;
+}
 
 export default function Page() {
-  const [messages, setMessages] = useState<{ role: string; content: string }[]>(
-    []
-  );
-  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
     if (!input.trim()) return;
     setLoading(true);
 
-    const updatedMessages = [...messages, { role: "user", content: input }];
+    const userMessage: Message = {
+      id: crypto.randomUUID(),
+      role: 'user',
+      content: input,
+    };
+
+    const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
-    setInput("");
+    setInput('');
 
     try {
-      const res = await fetch("/api/ollama", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/ollama', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: updatedMessages }),
       });
       const data = await res.json();
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content: data.response || "Error fetching response",
-        },
-      ]);
+      const assistantMessage: Message = {
+        id: crypto.randomUUID(),
+        role: 'assistant',
+        content: data.response || 'Error fetching response',
+      };
+
+      setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "Error fetching response" },
+        {
+          id: crypto.randomUUID(),
+          role: 'assistant',
+          content: 'Error fetching response',
+        },
       ]);
       console.error(error);
     } finally {
@@ -51,13 +65,13 @@ export default function Page() {
           Model - deepseek-r1:14b 9GB
         </h2>
         <div className="flex-grow overflow-y-auto p-4 bg-[#2a2a2a] rounded-lg mb-4 text-white">
-          {messages.map((msg, index) => (
+          {messages.map((msg) => (
             <div
-              key={index}
+              key={msg.id}
               className={`mb-2 p-2 rounded-lg ${
-                msg.role === "user"
-                  ? "bg-blue-600 text-white self-end"
-                  : "bg-gray-700 text-white self-start"
+                msg.role === 'user'
+                  ? 'bg-blue-600 text-white self-end'
+                  : 'bg-gray-700 text-white self-start'
               }`}
             >
               <p>{msg.content}</p>
@@ -73,11 +87,12 @@ export default function Page() {
             placeholder="Enter your prompt..."
           />
           <button
+            type="submit"
             className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-500 disabled:opacity-50"
             onClick={handleSubmit}
             disabled={loading}
           >
-            {loading ? "Loading..." : "Send"}
+            {loading ? 'Loading...' : 'Send'}
           </button>
         </div>
       </div>

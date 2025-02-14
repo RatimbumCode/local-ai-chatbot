@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
-import Ollama from "ollama";
+import { NextResponse } from 'next/server';
+import Ollama from 'ollama';
 
 export async function POST(req: Request) {
   try {
     const { prompt } = await req.json();
     const response = await Ollama.generate({
-      model: "deepseek-r1:14b",
+      model: 'deepseek-r1:14b',
       prompt,
     });
 
@@ -13,8 +13,8 @@ export async function POST(req: Request) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return NextResponse.json(
-      { error: "Error fetching response" },
-      { status: 500 }
+      { error: 'Error fetching response' },
+      { status: 500 },
     );
   }
 }

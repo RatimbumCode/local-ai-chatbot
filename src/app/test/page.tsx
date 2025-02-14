@@ -1,7 +1,7 @@
-import ollama from "ollama";
+import ollama from 'ollama';
 
-import { z } from "zod";
-import { zodToJsonSchema } from "zod-to-json-schema";
+import { z } from 'zod';
+import { zodToJsonSchema } from 'zod-to-json-schema';
 
 /*
     Ollama structured outputs capabilities
@@ -10,14 +10,14 @@ import { zodToJsonSchema } from "zod-to-json-schema";
 
 // Define the schema for friend info
 const FriendInfoSchema = z.object({
-  name: z.string().describe("The name of the friend"),
-  age: z.number().int().describe("The age of the friend"),
-  is_available: z.boolean().describe("Whether the friend is available"),
+  name: z.string().describe('The name of the friend'),
+  age: z.number().int().describe('The age of the friend'),
+  is_available: z.boolean().describe('Whether the friend is available'),
 });
 
 // Define the schema for friend list
 const FriendListSchema = z.object({
-  friends: z.array(FriendInfoSchema).describe("An array of friends"),
+  friends: z.array(FriendInfoSchema).describe('An array of friends'),
 });
 
 async function run(model: string) {
@@ -47,9 +47,9 @@ async function run(model: string) {
 
   const messages = [
     {
-      role: "user",
+      role: 'user',
       content:
-        "I have two friends. The first is Ollama 22 years old busy saving the world, and the second is Alonso 23 years old and wants to hang out. Return a list of friends in JSON format",
+        'I have two friends. The first is Ollama 22 years old busy saving the world, and the second is Alonso 23 years old and wants to hang out. Return a list of friends in JSON format',
     },
   ];
 
@@ -65,12 +65,12 @@ async function run(model: string) {
   // Parse and validate the response
   try {
     const friendsResponse = FriendListSchema.parse(
-      JSON.parse(response.message.content)
+      JSON.parse(response.message.content),
     );
     console.log(friendsResponse);
   } catch (error) {
-    console.error("Generated invalid response:", error);
+    console.error('Generated invalid response:', error);
   }
 }
 
-run("llama3.1:8b").catch(console.error);
+run('llama3.1:8b').catch(console.error);

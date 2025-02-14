@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false);
@@ -15,7 +15,7 @@ export default function HomePage() {
   return (
     <div
       className={`min-h-screen transition-colors duration-300 ${
-        darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+        darkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'
       }`}
     >
       {/* Header Section */}
@@ -23,10 +23,11 @@ export default function HomePage() {
         <nav className="flex justify-between items-center mb-12">
           <h1 className="text-2xl font-bold">CoolWebApp</h1>
           <button
+            type="submit"
             onClick={() => setDarkMode(!darkMode)}
             className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700"
           >
-            {darkMode ? "🌞" : "🌙"}
+            {darkMode ? '🌞' : '🌙'}
           </button>
         </nav>
 
@@ -44,18 +45,18 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           {[
             {
-              title: "Responsive Design",
+              title: 'Responsive Design',
               description:
-                "Your app looks great on all devices, from mobile to desktop.",
+                'Your app looks great on all devices, from mobile to desktop.',
             },
             {
-              title: "Modern UI",
+              title: 'Modern UI',
               description:
-                "Clean and intuitive user interfaces built with Tailwind CSS.",
+                'Clean and intuitive user interfaces built with Tailwind CSS.',
             },
             {
-              title: "Fast Performance",
-              description: "Optimized for speed and efficiency using Next.js.",
+              title: 'Fast Performance',
+              description: 'Optimized for speed and efficiency using Next.js.',
             },
           ].map((feature) => (
             <div
@@ -77,7 +78,10 @@ export default function HomePage() {
             Join thousands of developers who have already transformed their web
             development workflow.
           </p>
-          <button className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+          <button
+            type="button"
+            className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300"
+          >
             Get Started
           </button>
         </div>

@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function Page() {
-  const [input, setInput] = useState("");
-  const [response, setResponse] = useState("Waiting for input...");
+  const [input, setInput] = useState('');
+  const [response, setResponse] = useState('Waiting for input...');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
     if (!input.trim()) return;
     setLoading(true);
     try {
-      const res = await fetch("/api/no-retain-message", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/no-retain-message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt: input }),
       });
       const data = await res.json();
-      setResponse(data.response || "Error fetching response");
+      setResponse(data.response || 'Error fetching response');
     } catch (error) {
-      setResponse("Error fetching response");
+      setResponse('Error fetching response');
       console.error(error);
     } finally {
       setLoading(false);
@@ -45,11 +45,12 @@ export default function Page() {
             placeholder="Enter your prompt..."
           />
           <button
+            type="submit"
             className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-500 disabled:opacity-50"
             onClick={handleSubmit}
             disabled={loading}
           >
-            {loading ? "Loading..." : "Send"}
+            {loading ? 'Loading...' : 'Send'}
           </button>
         </div>
       </div>
