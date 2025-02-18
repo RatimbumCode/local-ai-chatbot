@@ -7,6 +7,7 @@ interface InputSectionProps {
   loading: boolean;
   darkMode: boolean;
   responseTime: number | null;
+  error: string | null;
 }
 
 const formatResponseTime = (time: number) => {
@@ -22,6 +23,7 @@ const InputSection: React.FC<InputSectionProps> = ({
   loading,
   darkMode,
   responseTime,
+  error,
 }) => {
   return (
     <div className={`p-4 w-full ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
@@ -52,6 +54,8 @@ const InputSection: React.FC<InputSectionProps> = ({
             Response time: {formatResponseTime(responseTime)}
           </p>
         )}
+        <div className="text-red-500 mt-2">{error}</div>
+        {error && <div className="text-red-500 mt-2">{error}</div>}
       </div>
     </div>
   );

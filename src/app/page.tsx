@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import MessageList from '@/components/MessageList';
 import InputSection from '@/components/InputSection';
@@ -16,11 +16,20 @@ export default function Page() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [responseTime, setResponseTime] = useState<number | null>(null);
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem('darkMode');
+    return savedMode ? JSON.parse(savedMode) : true;
+  });
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+  }, [darkMode]);
 
   const handleSubmit = async () => {
     if (!input.trim()) return;
     setLoading(true);
+    setError(null);
 
     const startTime = Date.now();
     const userMessage: Message = {
@@ -47,21 +56,22 @@ export default function Page() {
       const assistantMessage: Message = {
         id: crypto.randomUUID(),
         role: 'assistant',
-        content: data.response || 'Error fetching response',
+        content: data.response || 'Error fetching assistant response.',
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
+      setError('Error fetching response. Please try again.');
       setMessages((prev) => [
         ...prev,
         {
           id: crypto.randomUUID(),
           role: 'assistant',
-          content: 'Error fetching response',
+          content: 'Error fetching response.',
         },
       ]);
 
-      console.error(error);
+      console.error(`Error:  ${error}`);
     } finally {
       setLoading(false);
     }
@@ -86,6 +96,7 @@ export default function Page() {
         loading={loading}
         darkMode={darkMode}
         responseTime={responseTime}
+        error={error}
       />
     </div>
   );
