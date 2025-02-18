@@ -54,7 +54,7 @@ const InputSection: React.FC<InputSectionProps> = ({
             Response time: {formatResponseTime(responseTime)}
           </p>
         )}
-        <div className="text-red-500 mt-2">{error}</div>
+
         {error && <div className="text-red-500 mt-2">{error}</div>}
       </div>
     </div>

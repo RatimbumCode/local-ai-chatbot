@@ -17,8 +17,13 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [responseTime, setResponseTime] = useState<number | null>(null);
   const [darkMode, setDarkMode] = useState(() => {
-    const savedMode = localStorage.getItem('darkMode');
-    return savedMode ? JSON.parse(savedMode) : true;
+    try {
+      const savedMode = localStorage.getItem('darkMode');
+      return savedMode ? JSON.parse(savedMode) : true;
+    } catch (error) {
+      console.error('Error parsing dark mode from localStorage.', error);
+      return true;
+    }
   });
   const [error, setError] = useState<string | null>(null);
 
@@ -27,7 +32,8 @@ export default function Page() {
   }, [darkMode]);
 
   const handleSubmit = async () => {
-    if (!input.trim()) return;
+    const trimmedInput = input.trim();
+    if (!trimmedInput) return;
     setLoading(true);
     setError(null);
 
@@ -35,7 +41,7 @@ export default function Page() {
     const userMessage: Message = {
       id: crypto.randomUUID(),
       role: 'user',
-      content: input,
+      content: trimmedInput,
     };
     const updatedMessages = [...messages, userMessage];
 
@@ -48,6 +54,11 @@ export default function Page() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: updatedMessages }),
       });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
       const data = await res.json();
       const endTime = Date.now();
 
@@ -56,7 +67,7 @@ export default function Page() {
       const assistantMessage: Message = {
         id: crypto.randomUUID(),
         role: 'assistant',
-        content: data.response || 'Error fetching assistant response.',
+        content: data.response,
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -71,14 +82,14 @@ export default function Page() {
         },
       ]);
 
-      console.error(`Error:  ${error}`);
+      console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
+    setDarkMode((prevMode: boolean) => !prevMode);
   };
 
   return (
