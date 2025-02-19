@@ -32,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({
           {selectedModel?.title || 'Default Title'}
         </h1>
         <h2
-          className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
+          className={`text-base ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
         >
           {selectedModel?.description || 'Default Description'}
         </h2>
@@ -44,10 +44,20 @@ const Header: React.FC<HeaderProps> = ({
             const model = models.find((m) => m.name === e.target.value);
             setSelectedModel(model || null);
           }}
-          className="mr-4"
+          className={`mr-4 p-2 rounded-lg border ${
+            darkMode
+              ? 'bg-gray-800 text-white border-gray-600 focus:ring-gray-500'
+              : 'bg-white text-gray-900 border-gray-300 focus:ring-blue-500'
+          } focus:outline-none focus:ring-2`}
         >
           {models.map((model) => (
-            <option key={model.name} value={model.name}>
+            <option
+              key={model.name}
+              value={model.name}
+              className={
+                darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
+              }
+            >
               {model.name}
             </option>
           ))}

@@ -32,7 +32,7 @@ const InputSection: React.FC<InputSectionProps> = ({
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your message..."
+            placeholder={loading ? 'Processing' : 'Type your message...'}
             className={`flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 ${darkMode ? 'bg-gray-700 text-white border-gray-600 focus:ring-gray-500' : 'focus:ring-blue-500'} resize-none h-24`}
             disabled={loading}
           />
@@ -49,7 +49,7 @@ const InputSection: React.FC<InputSectionProps> = ({
 
         {responseTime !== null && (
           <p
-            className={`text-sm mt-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}
+            className={`text-base mt-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}
           >
             Response time: {formatResponseTime(responseTime)}
           </p>
