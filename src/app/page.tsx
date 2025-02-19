@@ -52,7 +52,11 @@ export default function Page() {
       const res = await fetch('/api/ollama', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: updatedMessages }),
+        body: JSON.stringify({
+          //model: 'deepseek-r1:14b',
+          model: 'wizard-vicuna-uncensored:13b',
+          messages: updatedMessages,
+        }),
       });
 
       if (!res.ok) {

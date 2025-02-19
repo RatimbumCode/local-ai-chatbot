@@ -3,17 +3,17 @@ import Ollama from 'ollama';
 
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json();
+    const { messages, model } = await req.json();
 
     const formattedMessages = messages.map(
       (msg: { role: string; content: string }) => ({
-        role: msg.role === 'user' ? 'user' : 'assistant',
+        role: msg.role,
         content: msg.content,
       }),
     );
 
     const response = await Ollama.chat({
-      model: 'deepseek-r1:14b',
+      model: model,
       messages: formattedMessages,
     });
 
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error('Ollama API Error:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch response from Ollama' },
+      { error: 'Failed to fetch response from Ollama.' },
       { status: 500 },
     );
   }
