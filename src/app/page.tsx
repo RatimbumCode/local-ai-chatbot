@@ -4,11 +4,18 @@ import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import MessageList from '@/components/MessageList';
 import InputSection from '@/components/InputSection';
+import models from '@/data/models.json';
 
 interface Message {
   id: string;
   role: string;
   content: string;
+}
+
+interface Model {
+  name: string;
+  title: string;
+  description: string;
 }
 
 export default function Page() {
@@ -17,23 +24,29 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [responseTime, setResponseTime] = useState<number | null>(null);
   const [darkMode, setDarkMode] = useState(() => {
-    try {
-      const savedMode = localStorage.getItem('darkMode');
-      return savedMode ? JSON.parse(savedMode) : true;
-    } catch (error) {
-      console.error('Error parsing dark mode from localStorage.', error);
-      return true;
+    if (typeof window !== 'undefined') {
+      try {
+        const savedMode = localStorage.getItem('darkMode');
+        return savedMode ? JSON.parse(savedMode) : true;
+      } catch (error) {
+        console.error('Error parsing dark mode from localStorage.', error);
+        return true;
+      }
     }
+    return true;
   });
   const [error, setError] = useState<string | null>(null);
+  const [selectedModel, setSelectedModel] = useState<Model | null>(models[0]);
 
   useEffect(() => {
-    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('darkMode', JSON.stringify(darkMode));
+    }
   }, [darkMode]);
 
   const handleSubmit = async () => {
     const trimmedInput = input.trim();
-    if (!trimmedInput) return;
+    if (!trimmedInput || !selectedModel) return;
     setLoading(true);
     setError(null);
 
@@ -53,8 +66,7 @@ export default function Page() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          //model: 'deepseek-r1:14b',
-          model: 'wizard-vicuna-uncensored:13b',
+          model: selectedModel.name,
           messages: updatedMessages,
         }),
       });
@@ -100,7 +112,13 @@ export default function Page() {
     <div
       className={`flex flex-col h-screen ${darkMode ? 'bg-gray-800' : 'bg-gray-200'} items-center`}
     >
-      <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      <Header
+        darkMode={darkMode}
+        toggleDarkMode={toggleDarkMode}
+        models={models}
+        selectedModel={selectedModel}
+        setSelectedModel={setSelectedModel}
+      />
 
       <MessageList messages={messages} loading={loading} darkMode={darkMode} />
 

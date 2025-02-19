@@ -1,0 +1,17 @@
+[
+  {
+    "title": "DeepSeek",
+    "name": "deepseek-r1:14b",
+    "description": "DeepSeek’s first-generation reasoning models, achieving performance comparable to OpenAI-o1 across math, code, and reasoning tasks."
+  },
+  {
+    "title": "Meta Llama 3.2",
+    "name": "llama3.2:latest",
+    "description": "The Meta Llama 3.2 collection of multilingual large language models (LLMs) is a collection of pretrained and instruction-tuned generative models in 1B and 3B sizes (text in/text out). The Llama 3.2 instruction-tuned text only models are optimized for multilingual dialogue use cases, including agentic retrieval and summarization tasks. They outperform many of the available open source and closed chat models on common industry benchmarks."
+  },
+  {
+    "title": "Wizard Vicuna Uncensored",
+    "name": "wizard-vicuna-uncensored:13b",
+    "description": "Wizard Vicuna Uncensored is a 7B, 13B, and 30B parameter model based on Llama 2 uncensored by Eric Hartford. The models were trained against LLaMA-7B with a subset of the dataset, responses that contained alignment / moralizing were removed."
+  }
+]
