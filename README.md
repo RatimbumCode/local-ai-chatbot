@@ -1,6 +1,6 @@
 # Local AI Chatbot
 
-Ollama and Next.js togheter running deepseek-r1:14b 9GB model locally.
+Ollama and Next.js together running deepseek-r1:14b 9GB model locally, and other LLMs of your choice.
 
 ## Getting Started
 
@@ -15,6 +15,8 @@ Run on terminal once:
 ollama run deepseek-r1:14b
 ```
 
+If you want, you can run other LLMs and add it to app/data/models.json.
+
 Clone the repository:
 
 ```bash
@@ -24,6 +26,10 @@ cd local-ai-chatbot
 ```
 
 Make a copy of .env.local.example and rename it to .env.local
+
+```bash
+node -e "require('fs').copyFileSync('.env.local.example', '.env.local')"
+```
 
 Run the development server:
 
