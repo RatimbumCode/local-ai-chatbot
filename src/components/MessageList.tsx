@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface Message {
   id: string;
@@ -34,10 +36,39 @@ const MessageList: React.FC<MessageListProps> = ({
           className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
         >
           <div
-            className={`max-w-screen-xl p-4 rounded-lg ${message.role === 'user' ? 'bg-blue-600 text-white' : darkMode ? 'bg-gray-700 text-white' : 'bg-gray-50 border border-gray-200'}`}
+            className={`max-w-screen-lg p-4 rounded-lg ${message.role === 'user' ? 'bg-blue-600 text-white' : darkMode ? 'bg-gray-700 text-white' : 'bg-gray-50 border border-gray-200'}`}
           >
             {message.role === 'assistant' ? (
-              <ReactMarkdown className="text-base">
+              <ReactMarkdown
+                className="text-base"
+                components={{
+                  code({
+                    inline,
+                    className,
+                    children,
+                    ...props
+                  }: {
+                    inline?: boolean;
+                    className?: string;
+                    children?: React.ReactNode;
+                  }) {
+                    const match = /language-(\w+)/.exec(className || '');
+                    return !inline && match ? (
+                      <SyntaxHighlighter
+                        style={oneDark}
+                        language={match[1]}
+                        PreTag="div"
+                      >
+                        {String(children).replace(/\n$/, '')}
+                      </SyntaxHighlighter>
+                    ) : (
+                      <code className={className} {...props}>
+                        {children}
+                      </code>
+                    );
+                  },
+                }}
+              >
                 {message.content}
               </ReactMarkdown>
             ) : (
