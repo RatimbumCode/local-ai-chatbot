@@ -2,6 +2,8 @@
 
 Ollama and Next.js together running deepseek-r1:14b 9GB model locally, and other LLMs of your choice.
 
+![App Homepage](https://raw.githubusercontent.com/RatimbumCode/local-ai-chatbot/refs/heads/main/public/github-sample.png)
+
 ## Getting Started
 
 First, download Ollama and run it:
