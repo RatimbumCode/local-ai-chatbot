@@ -25,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({
     <header
       className={`p-4 shadow-sm w-full flex justify-between items-center ${darkMode ? 'bg-gray-900' : 'bg-white'}`}
     >
-      <div className="w-3/4">
+      <div className="pr-4">
         <h1
           className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}
         >
@@ -65,7 +65,7 @@ const Header: React.FC<HeaderProps> = ({
         <button
           type="button"
           onClick={toggleDarkMode}
-          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-gray-800'}`}
+          className={`px-4 py-2 rounded-lg whitespace-nowrap ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-gray-800'}`}
         >
           {darkMode ? 'Light Mode 🌞' : 'Dark Mode 🌚'}
         </button>
