@@ -17,6 +17,8 @@ export async function POST(req: Request) {
       messages: formattedMessages,
     });
 
+    console.log(response);
+
     return NextResponse.json({ response: response.message.content });
   } catch (error) {
     console.error('Ollama API Error:', error);
